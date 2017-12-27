@@ -1,0 +1,11 @@
+CREATE TYPE PARTICIPANTS_WORKSHOPS_BATCH AS TABLE(
+  EntryID INT,
+  WorkshopSubOrderID INT
+)
+CREATE PROCEDURE AssignParticipantsAtWorkshops(
+  @data PARTICIPANTS_WORKSHOPS_BATCH READONLY
+)
+AS
+BEGIN
+  INSERT INTO ParticipantsAtWorkshops SELECT EntryID, WorkshopSubOrderID FROM @data
+END

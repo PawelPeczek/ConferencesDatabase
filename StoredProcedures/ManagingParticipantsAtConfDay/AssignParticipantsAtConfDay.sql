@@ -1,0 +1,12 @@
+CREATE TYPE PARTICIPANTS_BATCH AS TABLE(
+  ParticipantID INT
+)
+DROP PROCEDURE AssignParticipantsAtConfDay
+CREATE PROCEDURE AssignParticipantsAtConfDay(
+  @OrdOnConfDayID INT,
+  @data PARTICIPANTS_BATCH READONLY
+)
+AS
+BEGIN
+  INSERT INTO ParticipAtConfDay SELECT ParticipantID, @OrdOnConfDayID FROM @data
+END
