@@ -4,7 +4,7 @@ CREATE TRIGGER OrderValueDoesNotChangeAfterInsUpdPriceThresh
   AFTER INSERT, UPDATE
   AS
   BEGIN
-    IF (SELECT COUNT(*) FROM inserted) <> 1
+    IF (SELECT COUNT(*) FROM inserted) > 1
       BEGIN
           ROLLBACK TRANSACTION
           RAISERROR('Only one price threshold can be inserted/updated simultaneously!', 16, 11)

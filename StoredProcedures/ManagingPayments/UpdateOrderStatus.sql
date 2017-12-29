@@ -9,4 +9,5 @@ BEGIN
     GROUP BY o.OrderID, t.Total
     HAVING SUM(p.Value) < t.Total
   )
+  EXECUTE UpdateSysInfo
 END

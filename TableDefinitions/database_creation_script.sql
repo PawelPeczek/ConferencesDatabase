@@ -8,7 +8,7 @@ CREATE TABLE Clients(
   Login VARCHAR(45) UNIQUE NOT NULL,
   Password VARBINARY(64) NOT NULL,
   Email VARCHAR(80) NOT NULL UNIQUE,
-  PhoneNumber VARCHAR(16) NOT NULL UNIQUE,
+  PhoneNumber VARCHAR(20) NOT NULL UNIQUE,
   CHECK (
     Email LIKE '[a-z,0-9,_,-]%@[a-z,0-9,_,-]%.[a-z][a-z]%'
     AND Email NOT LIKE '% %'
@@ -20,14 +20,14 @@ CREATE TABLE Clients(
 CREATE TABLE CompDetails(
   ClientID INT PRIMARY KEY,
   CompanyName VARCHAR(45) NOT NULL,
-  Fax VARCHAR(16),
+  Fax VARCHAR(20),
   NIP VARCHAR(13) UNIQUE NOT NULL,
   ContactPersonName VARCHAR(32),
   ContactPersonSurname VARCHAR(32),
   CONSTRAINT FK_CompDetails_Clients FOREIGN KEY (ClientID) REFERENCES Clients(ClientID),
   CHECK (
     Fax NOT LIKE '%[a-z,.,_,*,!,@,#,$,%,^,&,*,;,",~,/,\,|,=]%' AND
-    NIP LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+    NIP LIKE '[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
     AND LEN(Fax) >= 9
   )
 )
@@ -69,8 +69,8 @@ CREATE TABLE StudentCards(
 )
 
 CREATE TABLE IndividualsDetails(
-  ClientID INT,
-  ParticipantID INT,
+  ClientID INT UNIQUE,
+  ParticipantID INT UNIQUE,
   PRIMARY KEY (ClientID, ParticipantID),
   CONSTRAINT FK_IndividualsDetails_Clients FOREIGN KEY (ClientID) REFERENCES Clients(ClientID),
   CONSTRAINT FK_IndividualsDetails_Participants FOREIGN KEY (ParticipantID) REFERENCES Participants(ParticipantID)
@@ -148,7 +148,7 @@ CREATE TABLE DaysOfConf(
 CREATE TABLE PriceThresholds(
   ThresholdID INT PRIMARY KEY IDENTITY(1,1),
   DayOfConfID INT NOT NULL,
-  EndDate DATETIME NOT NULL,
+  EndDate DATE NOT NULL,
   Value DECIMAL(8, 2) NOT NULL,
   CONSTRAINT FK_PriceThresholds_DaysOfConf FOREIGN KEY (DayOfConfID) REFERENCES DaysOfConf(DayOfConfID),
   CONSTRAINT UNIQUE_DayOfConf_EndThreshold UNIQUE(EndDate, DayOfConfID),

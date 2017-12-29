@@ -1,4 +1,6 @@
 -- batch creating clients
+-- Doesn't support promotion participant to IndividualCustomer -
+-- to do so -> use CreateIndivudualCust procedure
 DROP TYPE CUSTOMERS_INFO
 CREATE TYPE CUSTOMERS_INFO AS TABLE(
     internalID INT IDENTITY (1,1),
