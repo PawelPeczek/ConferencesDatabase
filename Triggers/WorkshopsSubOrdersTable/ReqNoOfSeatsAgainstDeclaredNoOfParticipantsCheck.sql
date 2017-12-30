@@ -81,7 +81,7 @@ CREATE TRIGGER ReqNoOfSeatsAgainstDeclaredNoOfParticipantsCheck
     IF @numb_of_vio > 0
       BEGIN
         ROLLBACK TRANSACTION
-        RAISERROR('Requested number of seats at workshop is lower than requested number of seats at conference day!!', 16, 4)
+        RAISERROR('Requested number of seats at workshop is greater than requested number of seats at conference day!!', 16, 4)
       END
   END
 

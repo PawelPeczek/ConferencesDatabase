@@ -45,12 +45,13 @@ CREATE TABLE Participants(
 )
 -- ALTER TABLE ParticipRegByClients ADD CONSTRAINT  UNIQUE_CLientID_ParticipantID UNIQUE (ClientID, ParticipantID)
 CREATE TABLE ParticipRegByClients(
-  ClientID INT NOT NULL,
-  ParticipantID INT NOT NULL,
+  ClientID INT,
+  ParticipantID INT,
+  CONSTRAINT PK_ParticipRegByClients PRIMARY KEY (ClientID, ParticipantID),
   CONSTRAINT FK_ParticipRegByClients_Clients FOREIGN KEY (ClientID) REFERENCES Clients(ClientID),
   CONSTRAINT FK_ParticipRegByClients_Participants FOREIGN KEY (ParticipantID) REFERENCES Participants(ParticipantID),
-  CONSTRAINT UNIQUE_CLientID_ParticipantID UNIQUE (ClientID, ParticipantID)
 )
+
 
 CREATE TABLE StudentCards(
   StudentCardID INT PRIMARY KEY IDENTITY(1, 1),

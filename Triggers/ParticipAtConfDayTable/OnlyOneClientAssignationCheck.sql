@@ -1,4 +1,5 @@
 -- Participant may be assigned to a conference day only by one client
+DROP TRIGGER OnlyOneClientAssignationCheck
 CREATE TRIGGER OnlyOneClientAssignationCheck
   ON ParticipAtConfDay
   AFTER INSERT, UPDATE
@@ -22,7 +23,7 @@ CREATE TRIGGER OnlyOneClientAssignationCheck
               FROM inserted i JOIN OrdersOnConfDays oocdi ON oocdi.OrdOnConfDayID = i.OrdOnConfDayID
               JOIN DaysOfConf doci ON oocdi.DayOfConfID = doci.DayOfConfID
           ) AND pacd.ParticipantID IN (SELECT ParticipantID FROM inserted)
-        HAVING COUNT(pacd.ParticipantID) <> 0
+        HAVING COUNT(pacd.ParticipantID) > 1
       ) t)
 
     IF @num_of_viol <> 0
