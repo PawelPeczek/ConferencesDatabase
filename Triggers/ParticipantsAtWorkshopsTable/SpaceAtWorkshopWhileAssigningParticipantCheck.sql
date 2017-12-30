@@ -14,7 +14,7 @@ DROP TRIGGER SpaceAtWorkshopWhileAssigningParticipantCheck
             ON t1.WorkshopSubOrderID = t2.WorkshopSubOrderID
           JOIN ParticipantsAtWorkshops paw ON t1.WorkshopSubOrderID = paw.WorkshopSubOrderID
         GROUP BY t1.WorkshopSubOrderID, t1.NumberOfSeats
-        HAVING COUNT(paw.EntryID) <> t1.NumberOfSeats
+        HAVING COUNT(paw.EntryID) > t1.NumberOfSeats
       ) t
     )
 
@@ -25,9 +25,3 @@ DROP TRIGGER SpaceAtWorkshopWhileAssigningParticipantCheck
       END
     END
 
-
-  -- TRIGGER SpaceAtWorkshopWhileAssigningParticipantCheck TESTS
-    SELECT * FROM WorkshopsSubOrders
-    SELECT * FROM ParticipantsAtWorkshops
-    DELETE FROM ParticipantsAtWorkshops
-  -- TESTS END
