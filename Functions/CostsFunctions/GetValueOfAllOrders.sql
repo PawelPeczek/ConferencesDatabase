@@ -1,3 +1,4 @@
+DROP FUNCTION GetValueOfAllOrders
 CREATE FUNCTION GetValueOfAllOrders()
 RETURNS @res TABLE(
   OrderID INT,
@@ -8,7 +9,7 @@ BEGIN
   INSERT INTO @res
     SELECT o.OrderID,
     SUM(oocd.NumberOfStudentSeats * (1 - c.StudentDiscount) * pt.Value + oocd.NumberOfRegularSeats * pt.Value)
-    + SUM(t3.Sum) [Total]
+    + SUM(ISNULL(t3.Sum, 0)) [Total]
     FROM Orders o JOIN OrdersOnConfDays oocd ON o.OrderID = oocd.OrderID
     JOIN DaysOfConf doc ON oocd.DayOfConfID = doc.DayOfConfID
     JOIN
@@ -21,7 +22,7 @@ BEGIN
         GROUP BY pt2.DayOfConfID
     )
     JOIN Conferences c ON doc.ConfID = c.ConfID
-    JOIN
+    LEFT JOIN
       (
         SELECT oocd1.OrdOnConfDayID, SUM(w.Value * wso.NumberOfSeats) [Sum]
         FROM Workshops w JOIN WorkshopsSubOrders wso ON w.WorkshopID = wso.WorkshopID
