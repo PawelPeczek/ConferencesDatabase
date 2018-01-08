@@ -112,6 +112,27 @@ CREATE TABLE Payments(
     )
 )
 
+CREATE TABLE Returns(
+  ReturnID INT PRIMARY KEY IDENTITY (1, 1),
+  OrderID INT NOT NULL,
+  Date DATE NOT NULL DEFAULT GETDATE(),
+  Value DECIMAL(8, 2) NOT NULL,
+  AccountNumber VARCHAR(28) NOT NULL,
+  TitleOfPayment VARCHAR(140) NOT NULL,
+  CONSTRAINT FK_Returns_Orders FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+  CHECK (
+    Value > 0 AND
+         (
+           AccountNumber LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' +
+                            '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR
+           AccountNumber LIKE '[A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' +
+                               '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+         ) AND
+    YEAR(Date) > 2010 AND
+    Date <= GETDATE()
+    )
+)
+
 CREATE TABLE ParticipantsDetails(
   ParticipantID INT PRIMARY KEY,
   Email VARCHAR(80) NOT NULL UNIQUE,
