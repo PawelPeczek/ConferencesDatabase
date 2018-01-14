@@ -9,7 +9,7 @@ CREATE PROCEDURE CreateCompanyClient
     @Fax VARCHAR(16),
     @NIP VARCHAR(13),
     @ContactPersonName VARCHAR(32) = NULL,
-    @ContactPersonSurname VARCHAR(32)
+    @ContactPersonSurname VARCHAR(32) = NULL
   )
 AS
 BEGIN
