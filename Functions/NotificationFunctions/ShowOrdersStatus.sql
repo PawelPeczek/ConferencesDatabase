@@ -8,10 +8,6 @@ RETURNS @res TABLE (
 )
 AS
 BEGIN
-  IF DATEDIFF(DAY, (SELECT TOP 1 LastUpdate FROM SysInfo ORDER BY LastUpdate DESC), GETDATE()) <> 0
-  BEGIN
-    EXECUTE UpdateOrderStatus
-  END
   INSERT @res
          SELECT OrderID, c.ClientID, CONCAT(p.Name, ' ', p.Surname) [Name], DateOfBook, Status FROM Orders
          JOIN Clients c ON Orders.ClientID = c.ClientID
@@ -22,4 +18,4 @@ BEGIN
          JOIN Clients c ON Orders.ClientID = c.ClientID
          JOIN CompDetails cd ON c.ClientID = cd.ClientID
   RETURN
-END
+END 

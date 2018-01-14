@@ -11,7 +11,6 @@ BEGIN
         GROUP BY o.OrderID, t.Total
         HAVING SUM(p.Value) < t.Total OR (SUM(p.Value) IS NULL AND t.Total <> 0)
       )
-      EXECUTE UpdateSysInfo
     COMMIT
   END TRY
   BEGIN CATCH
@@ -21,3 +20,4 @@ BEGIN
       SELECT @ErrorMessage = ERROR_MESSAGE(),@ErrorSeverity = ERROR_SEVERITY();
       RAISERROR(@ErrorMessage, @ErrorSeverity, 1);
   END CATCH
+END
