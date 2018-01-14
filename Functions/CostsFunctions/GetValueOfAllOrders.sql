@@ -1,4 +1,3 @@
-DROP FUNCTION GetValueOfAllOrders
 CREATE FUNCTION GetValueOfAllOrders()
 RETURNS @res TABLE(
   OrderID INT,
@@ -17,7 +16,7 @@ BEGIN
       SELECT pt1.DayOfConfID, pt1.Value, pt1.EndDate FROM PriceThresholds pt1
     ) pt ON doc.DayOfConfID = pt.DayOfConfID
     AND pt.EndDate = (
-        SELECT MIN(pt2.EndDate) FROM PriceThresholds pt2 WHERE pt2.EndDate >= doc.Date
+        SELECT MIN(pt2.EndDate) FROM PriceThresholds pt2 WHERE pt2.EndDate >= o.DateOfBook
         AND pt2.DayOfConfID = doc.DayOfConfID
         GROUP BY pt2.DayOfConfID
     )
