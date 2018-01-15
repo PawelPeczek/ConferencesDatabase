@@ -18,6 +18,6 @@ BEGIN
       JOIN OrdersOnConfDays oocd ON pacd.OrdOnConfDayID = oocd.OrdOnConfDayID
       JOIN Orders o ON oocd.OrderID = o.OrderID
       JOIN BasicClientsInfo bci ON bci.ClientID = o.ClientID
-      WHERE w.WorkshopID = 9364
+      WHERE w.WorkshopID = @WorkshopID
   RETURN
 END
